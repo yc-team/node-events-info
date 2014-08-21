@@ -15,6 +15,85 @@ node-events-info
 
 ### emitter.addListener(event,listener) 和 emitter.on(event,listener)
 
+
+源码：
+
+```javascript
+
+EventEmitter.prototype._events = underfined;
+EventEmitter.prototype._maxListeners = underfined;
+
+
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+
+EventEmitter.prototype.addListener = function addListener(type, listener){
+	var m;
+
+	//check is function
+	if (!util.isFunction(listener)) {
+		throw TypeError('listener must be a function');
+	}
+
+	if (!this._events) {
+		this._events = {};
+	}
+
+
+	//check if bind newListener
+	//if true, emit it
+	if (this._events.newListener) {
+		//util.isFunction(listener.listener)  -- really someone use this way?
+		this.emit('newListener', type, util.isFunction(listener.listener) ? listener.listener : listener);
+	}
+
+	if (!this._events[type]) {
+		//has no key type
+		//put {type: listener} in this._events
+		this._events[type] = listener;
+	} else if (util.isObject(this._events[type])){
+		//if key type is already in this._events
+		//like array just push
+		this._events[type].push(listener);
+	} else {
+
+		this._events[type] = [this._events[type], listener];
+	}
+
+
+	if (util.isObject(this._events[type]) && !this._events[type].warned) {
+		var m;
+		if (!util.isUndefined(this._maxListeners)) {
+			m = this._maxListeners;
+		} else {
+			m = EventEmitter.defaultMaxListeners;
+		}
+	
+
+		if (m && m > 0 && this._events[type].length > m) {
+			//set type.warned = true here
+			this._events[type].warned = true;
+
+			console.error('(node) warning: possible EventEmitter memory ' +
+	                    'leak detected. %d %s listeners added. ' +
+	                    'Use emitter.setMaxListeners() to increase limit.',
+	                    this._events[type].length, type);
+
+	        //trace
+	        console.trace();
+
+		}
+
+	}
+
+	return this;
+
+};
+
+```
+
+
 添加一个listener到给指定的event的listeners数组的最后一个。
 
 ```javascript

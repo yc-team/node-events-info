@@ -154,6 +154,25 @@ server.removeListener('connection', callback);
 在发现内存泄露时候很有用。当然也不是所有的Emitters都需要限制到10。可以通过这个方法也增加。设置0的化，就没有限制。
 
 
+源码展示：
+
+```javascript
+EventEmitter.prototype.setMaxListeners = function setMaxListeners(n) {
+	//check n type
+	if (!util.isNumber(n) || n < 0 || isNaN(n)) {
+		throw TypeError('n must be a positive number');
+	}	
+
+	//set _maxListeners as n
+	this._maxListeners = n;
+
+	// for chained use
+	return this;
+};
+```
+
+
+
 
 ### emitter.listeners(event)
 

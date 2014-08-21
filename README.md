@@ -1,6 +1,13 @@
 node-events-info
 ================
 
+
+参考：
+
+[源码地址](https://github.com/joyent/node/commits/master/lib/events.js)
+
+
+
 ## Class: events.EventEmitter
 
 通过require('events').EventEmitter来访问EventEmitter类
@@ -85,6 +92,12 @@ console.log(util.inspect(server.listeners('conection'))); //[ [Function] ]
 ### 类方法：EventEmitter.listenerCount(emitter, event)
 
 返回指定event的listeners的个数。
+
+
+
+### emitter.emit(event, [arg1],[arg2],[...])
+
+如果event有listeners，返回true，否则就是false。
 
 
 

@@ -81,3 +81,26 @@ server.on('connection', function(stream){
 console.log(util.inspect(server.listeners('conection'))); //[ [Function] ]
 ```
 
+
+### 类方法：EventEmitter.listenerCount(emitter, event)
+
+返回指定event的listeners的个数。
+
+
+
+
+### 事件：newListener
+
+* event    {String}
+* listener {Function}
+
+在添加一个新的listener的时候触发。不确定这个listener参数是否在emitter.listeners(event)返回的list里面。
+
+
+### 事件：removeListener
+
+* event    {String}
+* listener {Function}
+
+在移除一个listener的时候触发。不确定这个listener参数是否在emitter.listeners(event)返回的list里面。
+

@@ -4,7 +4,7 @@ node-events-info
 
 参考：
 
-[源码地址](https://github.com/joyent/node/commits/master/lib/events.js)
+[源码地址](https://github.com/joyent/node/blob/master/lib/events.js)
 
 
 
